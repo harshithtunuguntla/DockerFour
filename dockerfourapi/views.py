@@ -11,10 +11,52 @@ def dockerinstallation_view(request):
 #---------------------
 #Install Docker
 def dockerinstall_view(request):
-    return HttpResponse("Inside docker install view")
+    try:    
+    
+        res=sp.run(["systemctl", "start","docker"],capture_output=True)
+        print(res.returncode)
+        # res=subprocess.run(["dockerd"],capture_output=True)
+        res=sp.run(["docker","info"],capture_output=True)
+        print("FINAL")
+        #print(res)
+
+    except Exception as e:
+        print("IN EXCEPTION INSTALLING")
+        res =  sp.run(["apt-get", "install", "docker.io", "-y"], capture_output=True)
+        # print("Waiting to install")
+        # time.sleep(10)
+        # print("DONe")
+        res=sp.run(["systemctl", "start","docker"],capture_output=True)
+        print(res.returncode)
+
+    return HttpResponse("Docker Installed Succesfully")
 
 def dockeruninstall_view(request):
-    return HttpResponse("Inside docker uninstall view")
+    try:
+        res=sp.run(["apt", "remove","docker.io","-y"],capture_output=True)
+    except:
+        pass
+
+    try:
+        sp.run(["rm","-r","/var/run/docker"],capture_output=True)
+    except:
+        pass
+
+
+    try:
+        sp.run(["rm","/var/run/docker.sock"],capture_output=True)
+    except:
+        pass
+
+    try:
+        sp.run(["rm","/var/run/docker.pid"],capture_output=True)
+    except:
+        pass
+    try:
+        sp.run(["rm","-r","/var/lib/docker"],capture_output=True)
+    except:
+        pass
+    return HttpResponse("Docker Uninstall Succesfully")
 #----------------------
 
 #Processes
