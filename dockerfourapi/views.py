@@ -92,3 +92,47 @@ def imagesinfo_view(request):
         return HttpResponse(e)
 
 
+#-------------------------------- Image Pull and Delete
+def pullimage_view(request,image_name):
+    print("IMAGES")
+    print("Inside images pull  view")
+    try:
+        res=sp.run(["docker","pull",image_name],capture_output=True)
+        return HttpResponse(res.stdout.decode())
+        # return HttpResponse("Inside images info view")
+
+    except Exception as e:
+        return HttpResponse(e)
+
+def deleteimage_view(request,image_name):
+    try:
+        res=sp.run(["docker","rmi","-f",image_name],capture_output=True)
+        return HttpResponse(res.stdout.decode())
+    except Exception as e:
+        return HttpResponse(e)
+
+#-------------------------------
+
+def deletecontainer_view(request,container_id):
+    try:
+        res=sp.run(["docker","rm","-f",container_id],capture_output=True)
+        return HttpResponse(res.stdout.decode())
+    except Exception as e:
+        return HttpResponse(e)
+
+def stopcontainer_view(request,container_id):
+    try:
+        res=sp.run(["docker","stop",container_id],capture_output=True)
+        return HttpResponse(res.stdout.decode())
+    except Exception as e:
+        return HttpResponse(e)
+
+def pausecontainer_view(request,container_id):
+    try:
+        res=sp.run(["docker","pause",container_id],capture_output=True)
+        return HttpResponse(res.stdout.decode())
+    except Exception as e:
+        return HttpResponse(e)
+
+
+

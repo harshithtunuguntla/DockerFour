@@ -24,6 +24,22 @@ urlpatterns = [
     path('info/images',views.imagesinfo_view,name="images_info"),
 
 
+    path('image/pull/<str:image_name>',views.pullimage_view,name="pullimage_view"),
+    path('image/delete/<str:image_name>',views.deleteimage_view,name="deleteimage_view"),
+
+
+    path('container/delete/<str:container_id>',views.deletecontainer_view,name="deletecontainer_view"),
+    path('container/stop/<str:container_id>',views.stopcontainer_view,name="stopcontainer_view"),
+    path('container/pause/<str:container_id>',views.pausecontainer_view,name="pausecontainer_view"),
+
+
+
+
+
+
+
+
+
 
 
 
