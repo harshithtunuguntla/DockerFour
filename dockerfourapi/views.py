@@ -116,7 +116,12 @@ def deleteimage_view(request,image_name):
 def deletecontainer_view(request,container_id):
     try:
         res=sp.run(["docker","rm","-f",container_id],capture_output=True)
-        return HttpResponse(res.stdout.decode())
+        if res.stdout.decode()==container_id:
+            return HttpResponse("Container Deleted Succesfully")
+        elif res.stdout.decode()=="":
+            return HttpResponse("Container Could Not Be Found")
+        else:
+            return HttpResponse("There is a problem executing command")
     except Exception as e:
         return HttpResponse(e)
 
